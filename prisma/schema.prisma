@@ -1,0 +1,67 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
+}
+
+model User {
+  id           Int          @id @default(autoincrement())
+  mail         String       @unique
+  password     String
+  token        String       @unique @default(cuid())
+  role         Role        @default(CUSTOMER)
+  personalInfo ContactInfo?
+  cart         Cart?
+}
+
+model ContactInfo {
+  id        Int    @id @default(autoincrement())
+  firstname String
+  lastname  String
+  phone     String
+  address   String
+  userID    Int    @unique
+  user      User  @relation(fields: [userID], references: [id], onDelete: Cascade)
+}
+
+model Cart {
+  id        Int      @id @default(autoincrement())
+  userID    Int      @unique
+  user      User?    @relation(fields: [userID], references: [id])
+  cartItems CartItem[]
+}
+
+model CartItem {
+  id        Int      @id @default(autoincrement())
+  cartID    Int
+  cart      Cart    @relation(fields: [cartID], references: [id])
+  productID Int
+  product   Product @relation(fields: [productID], references: [id])
+}
+
+model Product {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String
+  price       Float
+  image       String
+  stock       Int
+  category    Category[]
+  cartItems   CartItem[]
+}
+
+model Category {
+  id       Int      @id @default(autoincrement())
+  name     String
+  products Product[]
+}
+
+enum Role {
+  CUSTOMER
+  ADMIN
+  OWNER
+}
