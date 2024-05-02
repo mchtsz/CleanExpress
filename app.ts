@@ -1,12 +1,14 @@
 import express from "express";
 import { join } from "path";
 import { PrismaClient, Role } from "@prisma/client";
-import crypto from "crypto";
+import crypto from "crypto"; // will use to hash passwords
 import cookieParser from "cookie-parser";
 
+// create express app and prisma client
 const app = express();
 const prisma = new PrismaClient();
 
+// paths for middleware
 const adminPaths = ["/admin"];
 const restrictedPaths = ["/", ...adminPaths];
 
@@ -41,29 +43,10 @@ app.use(async (req, res, next) => {
 });
 
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(join(__dirname, "public")));
-app.use(express.static(join(__dirname, "pages")));
+app.use(express.static(join(__dirname, "nuxt-app/dist")));
 
-function getRoute(file: string) {
-  return join(__dirname, "pages", file);
-}
-
-const pages = {
-  index: "index.html",
-  login: "login.html",
-  register: "register.html"
-};
-
-app.get("/", (req, res) => {
-  res.sendFile(getRoute(pages.index));
-});
-
-app.get("/login", (req, res) => {
-  res.sendFile(getRoute(pages.login));
-});
-
-app.get("/register", (req, res) => {
-  res.sendFile(getRoute(pages.register));
+app.get("*", (req, res) => {
+  res.sendFile(join(__dirname, "nuxt-app/dist", "index.html"));
 });
 
 app.listen(3000, () => {
