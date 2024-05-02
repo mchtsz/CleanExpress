@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "start": "cls && tsx watch app.ts"
+  },
+  "dependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.12.8",
+    "express": "^4.19.2"
+  }
+}
