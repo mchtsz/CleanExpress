@@ -42,12 +42,59 @@ app.use(async (req, res, next) => {
   next(); // if everything works let them through
 });
 
-app.use(express.urlencoded({ extended: false }));
-app.use(express.static(join(__dirname, "nuxt-app/dist")));
+// function to create an admin
+async function createAdmin() {
+  const admin = await prisma.user.create({
+    data: {
+      mail: "admin@test.com",
+      password: crypto.createHash("sha256").update("Passord01").digest("hex"),
+      role: Role.ADMIN,
+      personalInfo: {
+        create: {
+          firstname: "admin",
+          lastname: "admin",
+          address: "admin street",
+          phone: "123456789",
+        },
+      },
+    },
+  });
 
-app.get("*", (req, res) => {
-  res.sendFile(join(__dirname, "nuxt-app/dist", "index.html"));
+  console.log(`${admin.mail} has been created`);
+
+  return admin;
+}
+
+// post for login
+app.post("/login", async (req, res) => {
+  const { mail, password } = req.body;
+
+  const userData = await prisma.user.findFirst({
+    where: {
+      mail: mail,
+      password: crypto.createHash("sha256").update(password).digest("hex"),
+    },
+  });
+
+  if (userData) {
+    const { role, token } = userData;
+    res.cookie("token", token);
+
+    switch (role) {
+      case Role.ADMIN:
+        res.redirect("/admin");
+        break;
+      case Role.CUSTOMER:
+        res.redirect("/");
+        break;
+    }
+  } else {
+    res.redirect("/");
+  }
 });
+
+app.use(express.urlencoded({ extended: false }));
+app.use(express.static(join(__dirname, "nuxtapp/dist")));
 
 app.listen(3000, () => {
   console.log(`Server running on port 3000`);
