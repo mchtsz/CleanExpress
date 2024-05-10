@@ -3,8 +3,10 @@ import { join } from "path";
 import { PrismaClient, Role } from "@prisma/client";
 import crypto from "crypto"; // will use to hash passwords
 import cookieParser from "cookie-parser";
+import cors from "cors";
 
 // create express app and prisma client
+const corse = cors();
 const app = express();
 const prisma = new PrismaClient();
 
@@ -13,7 +15,10 @@ const adminPaths = ["/admin"];
 const restrictedPaths = ["/", ...adminPaths];
 
 // important for reading req.body and using static
+app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(express.json());
+app.use(corse);
 
 app.use(async (req, res, next) => {
   // Exclude '/register' and '/' routes
@@ -66,7 +71,7 @@ async function createAdmin() {
 }
 
 // post for login
-app.post("/login", async (req, res) => {
+app.post("/loginPOST", async (req, res) => {
   const { mail, password } = req.body;
 
   const userData = await prisma.user.findFirst({
@@ -93,7 +98,28 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.use(express.urlencoded({ extended: false }));
+app.post("/registerPOST", async (req, res) => {
+  const { mail, password, firstname, lastname } = req.body;
+
+  const user = await prisma.user.create({
+    data: {
+      mail: mail,
+      password: crypto.createHash("sha256").update(password).digest("hex"),
+      role: Role.CUSTOMER,
+      personalInfo: {
+        create: {
+          firstname: firstname,
+          lastname: lastname,
+          address: "",
+          phone: "",
+        },
+      },
+    },
+  });
+
+  res.redirect("/");
+});
+
 app.use(express.static(join(__dirname, "nuxtapp/dist")));
 
 app.listen(3000, () => {

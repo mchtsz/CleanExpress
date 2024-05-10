@@ -1,7 +1,5 @@
 <script setup lang="ts">
 const toggled = ref(false);
-
-const notLoggedIn = ref(true);
 </script>
 
 <template>
@@ -51,6 +49,10 @@ nav {
     img {
       height: 100px;
     }
+  }
+
+  .buttons {
+    width: 315px;
   }
 }
 

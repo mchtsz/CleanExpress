@@ -1,9 +1,7 @@
-<script setup lang=ts>
-
-</script>
+<script setup lang=ts></script>
 
 <template>
-    <form action="/login" method="POST">
+    <form action="/loginPost" method="POST">
         <input type="text" name="mail" placeholder="mail">
         <input type="password" name="password" placeholder="assword">
         <button type="submit">Login</button>

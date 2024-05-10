@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <form action="/register" method="POST">
+  <form action="/registerPost" method="POST">
     <input type="text" name="firstname" placeholder="firstname" />
     <input type="text" name="lastname" placeholder="lastname" />
     <input type="text" name="mail" placeholder="mail" />

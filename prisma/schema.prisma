@@ -1,3 +1,6 @@
+// docker mac = 8e9b
+// docker windows = 10dea
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
