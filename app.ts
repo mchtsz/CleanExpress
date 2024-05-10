@@ -119,8 +119,33 @@ app.post("/registerPOST", async (req, res) => {
   res.redirect("/");
 });
 
+app.get("/api/users", async (req, res) => {
+  const users = await prisma.user.findMany({
+    include: {
+      personalInfo: true,
+    },
+  });
+
+  res.json(users);
+});
+
+app.get("/api/user/:token", async (req, res) => {
+  const { token } = req.cookies;
+
+  const user = await prisma.user.findUnique({
+    where: {
+      token: token,
+    },
+    include: {
+      personalInfo: true,
+    },
+  });
+
+  res.json(user);
+})
+
 app.use(express.static(join(__dirname, "nuxtapp/dist")));
 
-app.listen(3000, () => {
-  console.log(`Server running on port 3000`);
+app.listen(4000, () => {
+  console.log(`Server running on port 4000`);
 });
