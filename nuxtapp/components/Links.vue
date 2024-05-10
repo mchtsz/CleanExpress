@@ -3,9 +3,10 @@
 <template>
   <div class="links">
     <NuxtLink to="/"> home </NuxtLink>
-    <NuxtLink to="/shirts"> shirts </NuxtLink>
-    <NuxtLink to="/pants"> pants </NuxtLink>
-    <NuxtLink to="/hoodies"> hoodies </NuxtLink>
+    <NuxtLink to="/clothes"> clothes </NuxtLink>
+    <NuxtLink to="/shoes"> shoes </NuxtLink>
+    <NuxtLink to="/accessories"> accessories </NuxtLink>
+    <NuxtLink to="/designer"> designer </NuxtLink>
   </div>
 </template>
 
@@ -18,7 +19,7 @@
   gap: 1.5rem;
   &:has(a.router-link-exact-active) {
     a.router-link-exact-active {
-      color: var(--logored);
+      text-decoration: underline;
       font-size: 22px;
       font-weight: 700;
     }
@@ -26,12 +27,12 @@
 
   a {
     transition: 0.4s ease-in-out;
-    font-weight: 600;
+    font-weight: 500;
     font-size: 18px;
     text-transform: uppercase;
 
     &:hover {
-      color: var(--logored);
+      text-decoration: underline;
     }
   }
 

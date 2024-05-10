@@ -5,11 +5,11 @@
 <template>
     <form action="/login" method="POST">
         <input type="text" name="mail" placeholder="mail">
-        <input type="password" name="password" placeholder="Password">
+        <input type="password" name="password" placeholder="assword">
         <button type="submit">Login</button>
     </form>
 </template>
 
 <style scoped lang=scss>
-
+@import url("../styles/form.scss");
 </style>

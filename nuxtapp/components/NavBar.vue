@@ -1,27 +1,22 @@
 <script setup lang="ts">
 const toggled = ref(false);
+
+const notLoggedIn = ref(true);
 </script>
 
 <template>
   <nav>
     <div class="logo">
       <NuxtLink to="/">
-        <img src="#" alt="logo" />
+        <img src="/logo.jpeg" alt="logo" />
       </NuxtLink>
     </div>
     <div class="nav-links">
       <Links />
     </div>
-    <div class="buttons">
-      <a href="/login">
-        <button data-loginbtn>LOGIN</button>
-      </a>
-      <a href="/register">
-        <button data-registerbtn>SIGN UP</button>
-      </a>
-    </div>
+    <NavBtn class="buttons"/>
     <div class="toggle" @click="toggled = !toggled">
-      <!-- <img src="/burger.svg" alt="menu-svg"/> -->
+      <img src="/burgermenu.svg" alt="menu-svg"/>
       <Dropdown v-show="toggled" />
     </div>
   </nav>
@@ -31,7 +26,7 @@ const toggled = ref(false);
 nav {
   transition: 0.4s ease-in-out;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  padding: 2rem;
+  padding: .5rem 2rem;
   display: flex;
   justify-content: space-between;
   font-family: var(--navfont);
@@ -54,26 +49,7 @@ nav {
   .logo {
     width: 315px;
     img {
-      width: 150px;
-    }
-  }
-
-  .buttons {
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
-
-    button {
-      transition: 0.4s ease-in-out;
-      text-transform: uppercase;
-      font-weight: 700;
-      font-size: 18px;
-      padding: 1rem 1.5rem;
-      border-radius: 2rem;
-
-      &:hover {
-        transform: scale(1.1);
-      }
+      height: 100px;
     }
   }
 }

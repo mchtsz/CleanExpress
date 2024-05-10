@@ -13,7 +13,7 @@ model User {
   mail         String       @unique
   password     String
   token        String       @unique @default(cuid())
-  role         Role        @default(CUSTOMER)
+  role         Role         @default(CUSTOMER)
   personalInfo ContactInfo?
   cart         Cart?
 }
@@ -25,18 +25,18 @@ model ContactInfo {
   phone     String
   address   String
   userID    Int    @unique
-  user      User  @relation(fields: [userID], references: [id], onDelete: Cascade)
+  user      User   @relation(fields: [userID], references: [id], onDelete: Cascade)
 }
 
 model Cart {
-  id        Int      @id @default(autoincrement())
-  userID    Int      @unique
-  user      User?    @relation(fields: [userID], references: [id])
+  id        Int        @id @default(autoincrement())
+  userID    Int        @unique
+  user      User?      @relation(fields: [userID], references: [id])
   cartItems CartItem[]
 }
 
 model CartItem {
-  id        Int      @id @default(autoincrement())
+  id        Int     @id @default(autoincrement())
   cartID    Int
   cart      Cart    @relation(fields: [cartID], references: [id])
   productID Int
@@ -44,7 +44,7 @@ model CartItem {
 }
 
 model Product {
-  id          Int      @id @default(autoincrement())
+  id          Int        @id @default(autoincrement())
   name        String
   description String
   price       Float
@@ -55,7 +55,7 @@ model Product {
 }
 
 model Category {
-  id       Int      @id @default(autoincrement())
+  id       Int       @id @default(autoincrement())
   name     String
   products Product[]
 }
