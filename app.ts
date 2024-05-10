@@ -69,7 +69,6 @@ async function createAdmin() {
 
   return admin;
 }
-
 // post for login
 app.post("/loginPOST", async (req, res) => {
   const { mail, password } = req.body;
