@@ -89,7 +89,6 @@ section {
   margin: 10vh auto;
   padding: 2rem 4rem;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 2rem;
 
   h1 {
     font-size: 1.8rem;

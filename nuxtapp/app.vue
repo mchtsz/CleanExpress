@@ -1,15 +1,21 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const route = useRoute();
+const showLinkList = computed(() => route.path.startsWith('/account'));
+</script>
 
 <template>
   <NavBar />
-  <section>
+  <div class="nuxtpage">
+    <LinkList v-if="showLinkList" />
     <NuxtPage />
-  </section>
+  </div>
 </template>
 
 <style scoped lang="scss">
-section {
+.nuxtpage {
   padding: 1rem;
   font-family: var(--footerfont);
+  display: flex;
+  flex-direction: row;
 }
 </style>

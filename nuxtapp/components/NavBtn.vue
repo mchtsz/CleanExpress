@@ -23,7 +23,7 @@ onMounted(() => {
     </a>
   </div>
   <div class="buttons" v-else>
-    <a href="/account">
+    <a href="/account/edit">
       <img src="/account.svg" alt="account">
     </a>
     <a href="/checkout">

@@ -3,7 +3,7 @@
 <template>
     <form action="/loginPost" method="POST">
         <input type="text" name="mail" placeholder="mail">
-        <input type="password" name="password" placeholder="assword">
+        <input type="password" name="password" placeholder="password">
         <button type="submit">Login</button>
     </form>
 </template>
