@@ -27,6 +27,7 @@ model ContactInfo {
   lastname  String
   phone     String
   address   String
+  city      String
   userID    Int    @unique
   user      User   @relation(fields: [userID], references: [id], onDelete: Cascade)
 }

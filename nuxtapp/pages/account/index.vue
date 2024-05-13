@@ -1,18 +1,9 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+</script>
 
 <template>
-  <section>
-    <h1>Account information</h1>
-    <form action="/editContactinfo" method="POST">
-      <input type="text" name="firstname" placeholder="firstname" />
-      <input type="text" name="lastname" placeholder="lastname" />
-      <input type="text" name="email" placeholder="email" />
-      <input type="text" name="phone" placeholder="phone" />
-      <input type="text" name="address" placeholder="address" />
-      <input type="text" name="city" placeholder="city" />
-      <input type="submit" value="Update" />
-    </form>
-  </section>
+  <h1>Wallah</h1>
+
 </template>
 
 <style scoped lang="scss">

@@ -6,7 +6,6 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 
 // create express app and prisma client
-const corse = cors();
 const app = express();
 const prisma = new PrismaClient();
 
@@ -18,7 +17,13 @@ const restrictedPaths = ["/", ...adminPaths];
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.json());
-app.use(corse);
+
+const corsOptions = {
+  origin: 'http://localhost:3000', // replace with your client's origin
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 
 app.use(async (req, res, next) => {
   // Exclude '/register' and '/' routes
@@ -60,6 +65,7 @@ async function createAdmin() {
           lastname: "admin",
           address: "admin street",
           phone: "123456789",
+          city: "admin city",
         },
       },
     },
@@ -69,6 +75,7 @@ async function createAdmin() {
 
   return admin;
 }
+
 // post for login
 app.post("/loginPOST", async (req, res) => {
   const { mail, password } = req.body;
@@ -82,7 +89,7 @@ app.post("/loginPOST", async (req, res) => {
 
   if (userData) {
     const { role, token } = userData;
-    res.cookie("token", token);
+    res.cookie('token', token, { maxAge: 1000 * 60 * 60 * 24 * 7});
 
     switch (role) {
       case Role.ADMIN:
@@ -95,6 +102,32 @@ app.post("/loginPOST", async (req, res) => {
   } else {
     res.redirect("/");
   }
+});
+
+app.post("/editContactinfo", async (req, res) => {
+  const { firstname, lastname, mail, phone, address, city } = req.body;
+
+  const token = req.cookies.token;
+
+  const user = await prisma.user.update({
+    where: {
+      token: token,
+    },
+    data: {
+      mail: mail,
+      personalInfo: {
+        update: {
+          firstname: firstname,
+          lastname: lastname,
+          phone: phone,
+          address: address,
+          city: city,
+        },
+      },
+    },
+  });
+
+  res.redirect("/");
 });
 
 app.post("/registerPOST", async (req, res) => {
@@ -111,6 +144,7 @@ app.post("/registerPOST", async (req, res) => {
           lastname: lastname,
           address: "",
           phone: "",
+          city: "",
         },
       },
     },
@@ -129,8 +163,8 @@ app.get("/api/users", async (req, res) => {
   res.json(users);
 });
 
-app.get("/api/user/:token", async (req, res) => {
-  const { token } = req.cookies;
+app.get("/api/userinfo/", async (req, res) => {
+  const token = req.cookies.token;
 
   const user = await prisma.user.findUnique({
     where: {
